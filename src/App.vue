@@ -1,25 +1,11 @@
 <template>
   <div id="app">
     <h1>Positioning with Gravity</h1>
-    <!-- <cld-image cloudName="sep-2020-test" publicId="1px" width="300">
-      <cld-transformation effect="replace_color:red" width="300" crop="scale"/>
-      <cld-transformation
-        overlay="logo"
-        width="50"
-        crop="fit"
-        :gravity="gravity"
-        :x="xpos"
-        :y="ypos"
-      />
-    </cld-image>-->
-    <!-- <MyImage :gravity="gravity" :xpos="xpos" :ypos="ypos"/> -->
-    <div id="transform">
-      <img :src="url" alt="positioning" />
+    <div v-show="url" id="transform">
+      <img :src="url" alt="positioning example" />
     </div>
-    <!-- <div>{{ gravity }} {{ xpos }} {{ ypos }}</div> -->
 
     <b-form @submit="updateImage" inline>
-      <!-- <b-form-group id="group-select" label="Gravity:" label-for="gravity" > -->
       <label class="sr-only" for="gravity">Gravity:</label>
 
       <b-form-select
@@ -29,7 +15,6 @@
         class="mb-2 mr-sm-2 mb-sm-0"
         required
       ></b-form-select>
-      <!-- </b-form-group> -->
       <label for="xpos">x:</label>
       <b-form-input
         type="number"
@@ -41,7 +26,6 @@
         class="mb-2 mr-sm-2 mb-sm-0"
         placeholder="X position"
       ></b-form-input>
-      <!-- <b-form-spinbutton inline id="xpos" v-model="xpos" min="1" max="300"></b-form-spinbutton> -->
 
       <label class="mr-sm-2" for="ypos">y:</label>
       <b-form-input
@@ -54,40 +38,22 @@
         class="mb-2 mr-sm-2 mb-sm-0"
         placeholder="Y position"
       ></b-form-input>
-      <!-- <b-form-spinbutton inline id="ypos" v-model="ypos" min="1" max="300"></b-form-spinbutton> -->
       <b-button type="submit" variant="primary">Submit</b-button>
     </b-form>
+    <div v-show="url" class="url-display" target="blank">
+      <a :href="url">{{ url }}</a>
+    </div>
   </div>
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld";
-// import MyImage from "@/components/MyImage";
 import cloudinary from "cloudinary-core";
 
 export default {
   name: "App",
-  // components: {
-  //   // Cloudinary,
-  //   // CldImage,
-  //   // MyImage
-  // },
   created: function () {
     this.cld = cloudinary.Cloudinary.new({ cloud_name: "sep-2020-test" });
-    const tr = cloudinary.Transformation.new();
-    tr.width(300)
-      .crop("scale")
-      .effect("replace_color:red")
-      .chain()
-      .overlay("logo")
-      .width("50")
-      .crop("fit")
-      .gravity(this.gravity)
-      .x(this.xpos)
-      .y(this.ypos);
-    this.url = this.cld.url("1px", tr);
-    // this.url =
-    //   "https://res.cloudinary.com/sep-2020-test/image/upload/c_scale,w_300,e_replace_color:red/1px";
+    this.url = this.createUrl();
   },
 
   methods: {
@@ -97,9 +63,10 @@ export default {
     },
     createUrl() {
       const tr = cloudinary.Transformation.new();
-      tr.width(200)
+      tr.width(250)
         .crop("scale")
         .effect("replace_color:red")
+        .border("5px_solid_red")
         .chain()
         .overlay("logo")
         .width("50")
@@ -120,47 +87,6 @@ export default {
       console.log(`image update:  ${this.gravity} `);
       console.log(`image update:  ${this.xpos} `);
       console.log(`image update:  ${this.ypos} `);
-      // this.url =
-      //   "https://res.cloudinary.com/sep-2020-test/image/upload/c_scale,w_300,e_replace_color:green/1px";
-      // const tr = cloudinary.Transformation.new();
-      // tr.width(300)
-      //   .crop("scale")
-      //   .effect("replace_color:red")
-      //   .chain()
-      //   .overlay("logo")
-      //   .width("50")
-      //   .crop("fit")
-      //   .gravity("center")
-      //   .x(100)
-      //   .y(100);
-      // this.url = this.cld.url("1px", tr);
-
-      // .chain().angle(15)
-      //  this.url = this.cld.url("1px", {
-      // secure: true,
-      // cld.transformation()
-      // .transformation('effect',"replace_color:red", width: "300", crop: "scale" ),
-      //   // {
-      //   overlay: new cloudinary.Layer().publicId("logo"),
-      //   width: "50",
-      //   crop: "fit",
-      //   gravity: "center",
-      //   x: 100,
-      //   y: 100
-      // }
-
-      // });
-      //  studentData.URL = cld.url(
-      //     studentData.publicId,
-      //     cld
-      //       .transformation()
-      //       .variables([
-      //         ['$data', `${overlayText}`],
-      //         ['$color', `${studentData.color}`],
-      //         ['$bgcolor', `${studentData.bgcolor}`]
-      //       ])
-      //       .transformation('v-badge-color')
-      // )
     },
   },
   data: function () {
@@ -197,10 +123,22 @@ export default {
   margin-top: 4rem;
 }
 
-label, button {
-  margin: 0 .5rem;
+label,
+button {
+  margin: 0 0.5rem;
 }
 #tranform {
-  width: 300
+  width: 300;
+}
+.url-display {
+  padding: 1rem;
+  margin: 0.5rem auto;
+  text-align: "center";
+  background: #f0f0f0;
+  width: 320px;
+  word-wrap: break-word;
+}
+.url-display a {
+  color: #2c3e50;
 }
 </style>
