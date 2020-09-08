@@ -40,8 +40,10 @@
       ></b-form-input>
       <b-button type="submit" variant="primary">Submit</b-button>
     </b-form>
-    <div v-show="url" class="url-display" target="blank">
-      <a :href="url">{{ url }}</a>
+    <div class="parent">
+      <div v-show="url" class="url-display" >
+          <a :href="url" target="_blank">{{ url }}</a>
+      </div>
     </div>
   </div>
 </template>
@@ -79,7 +81,6 @@ export default {
     },
     updateImage(evt) {
       console.log("hi");
-      // debugger
       evt.preventDefault();
       this.url = this.createUrl();
       console.log(this.url);
@@ -130,15 +131,25 @@ button {
 #tranform {
   width: 300;
 }
+
+.parent {
+  display: flex;
+  justify-content: center; 
+   align-items: center;
+   padding: 5px;
+}
 .url-display {
   padding: 1rem;
-  margin: 0.5rem auto;
-  text-align: "center";
+
+  width: 300px;
+  overflow-wrap: break-word;
   background: #f0f0f0;
-  width: 320px;
-  word-wrap: break-word;
+  border: 1px solid transparent;
 }
 .url-display a {
   color: #2c3e50;
+}
+.url-display > div {
+  min-width: 0;
 }
 </style>
