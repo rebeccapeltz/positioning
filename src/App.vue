@@ -160,6 +160,7 @@ button {
   margin: 0;
   font-size: 1rem;
   color: #0e2f5a;
+  font-weight: bold;
 }
 
 .form-inline input {
@@ -214,6 +215,9 @@ button {
   }
   h2 {
     font-size: 1rem;
+  }
+  label {
+    text-align: left;
   }
 }
 </style>
